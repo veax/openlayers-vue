@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@heroicons/vue": "^2.0.18",
     "ol": "^7.4.0",
     "vue": "^3.3.4"
   },
