@@ -6,6 +6,7 @@ import { Map, View } from "ol"
 import { fromLonLat } from "ol/proj"
 import { defaults as defaultControls } from "ol/control"
 import MapBar from "./components/MapBar.vue"
+import { RESOLUTIONS_GRID } from "./consts"
 
 // state
 let map = ref<Map | null>(null)
@@ -20,8 +21,10 @@ onMounted(() => {
       }),
     ],
     view: new View({
-      center: fromLonLat([0, 0]),
+      center: fromLonLat([39.712585, 54.609543]),
       zoom: 2,
+      resolutions: RESOLUTIONS_GRID,
+      constrainResolution: true,
     }),
     controls: defaultControls({
       zoom: false,
