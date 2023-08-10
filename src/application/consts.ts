@@ -1,4 +1,4 @@
-export const RESOLUTIONS_GRID = [
+export const RESOLUTIONS_GRID_METERS = [
   //  res             level  scale @96.0 DPI
   264.5838625010584, // 0:  1000000.00000000
   132.2919312505292, // 1:  500000.00000000
@@ -13,4 +13,15 @@ export const RESOLUTIONS_GRID = [
   0.5291677250021167, // 10: 2000.00000000
 ]
 
+export const METER_PER_DEGREE = 111319.49079327358 // from OpenLayers epsg:4326 getProjection().getMetersPerUnit()
+
+export const RESOLUTION_GRID_DEGREES = RESOLUTIONS_GRID_METERS.map(
+  (res) => res / METER_PER_DEGREE
+)
+
 export const DEFAULT_DPI = 96
+export const DEFAULT_PROJECTION = "EPSG:3857"
+export const WGS84_PROJECTION = "EPSG:4326"
+export const PROJECTIONS = [DEFAULT_PROJECTION, WGS84_PROJECTION] as const
+export type ProjectionType = (typeof PROJECTIONS)[number]
+export const VIEW_CENTER = [-1.553621, 47.218371]
