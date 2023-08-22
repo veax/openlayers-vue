@@ -7,6 +7,12 @@ import { MousePosition, defaults as defaultControls } from "ol/control"
 import MapBar from "./components/MapBar/MapBar.vue"
 import { useMousePosition } from "./composables/useMousePosition"
 import { initView } from "./application/defaults"
+import { fromEPSGCode, register } from "ol/proj/proj4"
+import proj4 from "proj4"
+import {
+  LAMBERT_PROJECTION,
+  LAMBERT_PROJECTION_DEFINITION,
+} from "./application/consts"
 
 // state
 let map = ref<Map | null>(null)
@@ -18,7 +24,10 @@ const mapBarRef = ref<InstanceType<typeof MapBar> | null>(null)
 const { mouse, setTargetRef: setMousePositionTargetRef } = useMousePosition()
 
 // hooks
-onMounted(() => {
+onMounted(async () => {
+  proj4.defs(LAMBERT_PROJECTION, LAMBERT_PROJECTION_DEFINITION)
+  register(proj4)
+  // const customProj = await fromEPSGCode(LAMBERT_PROJECTION)
   setMousePositionTargetRef(mapBarRef.value?.mousePositionRef)
   map.value = new Map({
     target: "map",
