@@ -9,6 +9,16 @@ import {
   WGS84_PROJECTION,
 } from "./consts"
 import { Coordinate } from "ol/coordinate"
+import VectorLayer from "ol/layer/Vector"
+import VectorSource from "ol/source/Vector"
+import GeoJSON from "ol/format/GeoJSON.js"
+import { circleFeatureCollection } from "../mocks/vectorData"
+import Style from "ol/style/Style"
+import Fill from "ol/style/Fill"
+import Stroke from "ol/style/Stroke"
+import { Map } from "ol"
+import TileLayer from "ol/layer/Tile"
+import OSM from "ol/source/OSM"
 
 interface ProjectionConfig {
   [key: string]: {
@@ -47,9 +57,50 @@ export const initView = (projection: string = DEFAULT_PROJECTION) => {
 
   return new View({
     center: settings.center,
-    zoom: 2,
+    zoom: 5,
     resolutions: settings.resolutions,
     constrainResolution: true,
     projection,
   })
+}
+
+export const getMapLayers = (projection = DEFAULT_PROJECTION) => {
+  return [
+    new TileLayer({
+      source: new OSM(),
+    }),
+    initVectorLayer(projection),
+  ]
+}
+
+// init Vector Layer
+export const initVectorLayer = (
+  projection = DEFAULT_PROJECTION
+): VectorLayer<VectorSource> => {
+  const features = new GeoJSON({ featureProjection: projection }).readFeatures(
+    circleFeatureCollection
+  )
+  console.log("features : ", features)
+  return new VectorLayer({
+    source: new VectorSource({
+      features,
+    }),
+    style: new Style({
+      stroke: new Stroke({
+        color: "rgba(255, 255, 0, 1)",
+        width: 2,
+      }),
+      fill: new Fill({
+        color: "rgba(255, 255, 0, 0.3)",
+      }),
+    }),
+  })
+}
+
+// reset map after projection change
+export const resetMapToNewProjection = (map: Map, newProjection: string) => {
+  const updatedView = initView(newProjection)
+
+  map.setLayers(getMapLayers(newProjection))
+  map.setView(updatedView)
 }

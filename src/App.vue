@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue"
-import OSM from "ol/source/OSM"
-import TileLayer from "ol/layer/Tile"
 import { Map } from "ol"
 import { MousePosition, defaults as defaultControls } from "ol/control"
 import MapBar from "./components/MapBar/MapBar.vue"
 import { useMousePosition } from "./composables/useMousePosition"
-import { initView } from "./application/defaults"
-import { fromEPSGCode, register } from "ol/proj/proj4"
+import { getMapLayers, initView } from "./application/defaults"
+import { register } from "ol/proj/proj4"
 import proj4 from "proj4"
 import {
   LAMBERT_PROJECTION,
@@ -24,18 +22,14 @@ const mapBarRef = ref<InstanceType<typeof MapBar> | null>(null)
 const { mouse, setTargetRef: setMousePositionTargetRef } = useMousePosition()
 
 // hooks
-onMounted(async () => {
+onMounted(() => {
   proj4.defs(LAMBERT_PROJECTION, LAMBERT_PROJECTION_DEFINITION)
   register(proj4)
-  // const customProj = await fromEPSGCode(LAMBERT_PROJECTION)
   setMousePositionTargetRef(mapBarRef.value?.mousePositionRef)
+
   map.value = new Map({
     target: "map",
-    layers: [
-      new TileLayer({
-        source: new OSM(),
-      }),
-    ],
+    layers: getMapLayers(),
     view: initView(),
     controls: defaultControls({
       zoom: false,

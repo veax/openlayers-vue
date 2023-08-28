@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Map } from "ol"
 import { computed } from "vue"
-import { initView } from "../../application/defaults"
+import { resetMapToNewProjection } from "../../application/defaults"
 import { PROJECTIONS } from "../../application/consts"
 
 // props
@@ -14,8 +14,7 @@ const selectedProjection = computed({
     return props.map.getView().getProjection().getCode()
   },
   set(newProjection) {
-    const view = initView(newProjection)
-    props.map?.setView(view)
+    resetMapToNewProjection(props.map, newProjection)
   },
 })
 </script>
