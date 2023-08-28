@@ -3,8 +3,10 @@ import { fromLonLat } from "ol/proj"
 import {
   DEFAULT_PROJECTION,
   LAMBERT_PROJECTION,
+  LAYER_ID,
   RESOLUTIONS_GRID_METERS,
   RESOLUTION_GRID_DEGREES,
+  VECTOR_LAYER,
   VIEW_CENTER,
   WGS84_PROJECTION,
 } from "./consts"
@@ -80,8 +82,7 @@ export const initVectorLayer = (
   const features = new GeoJSON({ featureProjection: projection }).readFeatures(
     circleFeatureCollection
   )
-  console.log("features : ", features)
-  return new VectorLayer({
+  const vectorLayer = new VectorLayer({
     source: new VectorSource({
       features,
     }),
@@ -95,6 +96,8 @@ export const initVectorLayer = (
       }),
     }),
   })
+  vectorLayer.set(LAYER_ID, VECTOR_LAYER)
+  return vectorLayer
 }
 
 // reset map after projection change

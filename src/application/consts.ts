@@ -34,3 +34,8 @@ export const VIEW_CENTER = [-1.553621, 47.218371]
 // definitions
 export const LAMBERT_PROJECTION_DEFINITION =
   "+proj=lcc +lat_0=46.5 +lon_0=3 +lat_1=49 +lat_2=44 +x_0=700000 +y_0=6600000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs +type=crs"
+
+// layers config
+export const LAYER_ID = "layer-id"
+export const VECTOR_LAYER = "vector-circle-features"
+export const SELECT_FEATURE_ID = "feat-1"

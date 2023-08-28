@@ -3,6 +3,7 @@ import { ref, onMounted } from "vue"
 import { Map } from "ol"
 import { MousePosition, defaults as defaultControls } from "ol/control"
 import MapBar from "./components/MapBar/MapBar.vue"
+import VectorEditor from "./components/VectorEditor/VectorEditor.vue"
 import { useMousePosition } from "./composables/useMousePosition"
 import { getMapLayers, initView } from "./application/defaults"
 import { register } from "ol/proj/proj4"
@@ -43,6 +44,7 @@ onMounted(() => {
 <template>
   <div id="map"></div>
   <MapBar :map="(map as Map | null)" ref="mapBarRef" />
+  <VectorEditor v-if="map" :map="(map as Map)" />
 </template>
 
 <style scoped>

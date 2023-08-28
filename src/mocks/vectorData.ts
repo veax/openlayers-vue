@@ -1,10 +1,16 @@
+import { SELECT_FEATURE_ID } from "../application/consts"
+
 // generated from http://geojson.io/
 export const circleFeatureCollection = {
   type: "FeatureCollection",
   features: [
     {
       type: "Feature",
-      properties: {},
+      properties: {
+        id: SELECT_FEATURE_ID,
+        name: "random feature",
+        property1: "important info",
+      },
       geometry: {
         type: "Polygon",
         coordinates: [
