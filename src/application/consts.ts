@@ -38,4 +38,6 @@ export const LAMBERT_PROJECTION_DEFINITION =
 // layers config
 export const LAYER_ID = "layer-id"
 export const VECTOR_LAYER = "vector-circle-features"
+export const SECOND_VECTOR_LAYER = "second-vector-circle-features"
 export const SELECT_FEATURE_ID = "feat-1"
+export const SELECT_INNER_FEATURE_ID = "feat-2-inner"

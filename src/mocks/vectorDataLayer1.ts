@@ -1,7 +1,7 @@
 import { SELECT_FEATURE_ID } from "../application/consts"
 
 // generated from http://geojson.io/
-export const circleFeatureCollection = {
+export const vectorDataLayer1 = {
   type: "FeatureCollection",
   features: [
     {

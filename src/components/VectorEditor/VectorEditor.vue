@@ -21,6 +21,7 @@ import {
   LAYER_ID,
   SELECT_FEATURE_ID,
   VECTOR_LAYER,
+  SECOND_VECTOR_LAYER,
 } from "../../application/consts"
 import VectorLayer from "ol/layer/Vector"
 import VectorSource from "ol/source/Vector"
@@ -39,6 +40,28 @@ let select = ref<Select>(
       return layer.get(LAYER_ID) === VECTOR_LAYER
     },
     features: features.value as Collection<Feature>,
+    condition: (e) => {
+      if (e.type === "click") {
+        const pixel = e.pixel
+        let shouldHandleClick = true
+        props.map.forEachFeatureAtPixel(pixel, (feature, layer) => {
+          if (layer.get(LAYER_ID) === SECOND_VECTOR_LAYER) {
+            shouldHandleClick = false
+            return
+          }
+        })
+        return shouldHandleClick
+      }
+      return false
+    },
+  })
+)
+let select2 = ref<Select>(
+  new Select({
+    multi: false,
+    layers: (layer) => {
+      return layer.get(LAYER_ID) === SECOND_VECTOR_LAYER
+    },
   })
 )
 
@@ -46,7 +69,7 @@ let select = ref<Select>(
 let featureLayer = findLayerById(
   props.map,
   VECTOR_LAYER
-) as VectorLayer<VectorSource> | null
+) as VectorLayer<VectorSource>
 
 // computed
 const selectedFeature = computed(() => {
@@ -64,6 +87,7 @@ const getFeatureProperty = computed(() => {
 // hooks
 onMounted(() => {
   props.map.addInteraction(select.value as Select)
+  props.map.addInteraction(select2.value as Select)
 })
 
 // functions

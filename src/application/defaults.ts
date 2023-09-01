@@ -6,6 +6,7 @@ import {
   LAYER_ID,
   RESOLUTIONS_GRID_METERS,
   RESOLUTION_GRID_DEGREES,
+  SECOND_VECTOR_LAYER,
   VECTOR_LAYER,
   VIEW_CENTER,
   WGS84_PROJECTION,
@@ -14,7 +15,8 @@ import { Coordinate } from "ol/coordinate"
 import VectorLayer from "ol/layer/Vector"
 import VectorSource from "ol/source/Vector"
 import GeoJSON from "ol/format/GeoJSON.js"
-import { circleFeatureCollection } from "../mocks/vectorData"
+import { vectorDataLayer1 } from "../mocks/vectorDataLayer1"
+import { vectorDataLayer2 } from "../mocks/vectorDataLayer2"
 import Style from "ol/style/Style"
 import Fill from "ol/style/Fill"
 import Stroke from "ol/style/Stroke"
@@ -72,6 +74,7 @@ export const getMapLayers = (projection = DEFAULT_PROJECTION) => {
       source: new OSM(),
     }),
     initVectorLayer(projection),
+    initSecondVectorLayer(projection),
   ]
 }
 
@@ -80,7 +83,7 @@ export const initVectorLayer = (
   projection = DEFAULT_PROJECTION
 ): VectorLayer<VectorSource> => {
   const features = new GeoJSON({ featureProjection: projection }).readFeatures(
-    circleFeatureCollection
+    vectorDataLayer1
   )
   const vectorLayer = new VectorLayer({
     source: new VectorSource({
@@ -97,6 +100,30 @@ export const initVectorLayer = (
     }),
   })
   vectorLayer.set(LAYER_ID, VECTOR_LAYER)
+  return vectorLayer
+}
+
+export const initSecondVectorLayer = (
+  projection = DEFAULT_PROJECTION
+): VectorLayer<VectorSource> => {
+  const features = new GeoJSON({ featureProjection: projection }).readFeatures(
+    vectorDataLayer2
+  )
+  const vectorLayer = new VectorLayer({
+    source: new VectorSource({
+      features,
+    }),
+    style: new Style({
+      stroke: new Stroke({
+        color: "rgba(133, 239, 133, 1)",
+        width: 2,
+      }),
+      fill: new Fill({
+        color: "rgba(133, 239, 133, 0.3)",
+      }),
+    }),
+  })
+  vectorLayer.set(LAYER_ID, SECOND_VECTOR_LAYER)
   return vectorLayer
 }
 
