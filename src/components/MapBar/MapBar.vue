@@ -52,12 +52,6 @@ defineExpose({
   gap: 20px;
 }
 
-.button:hover {
-  background-color: #2ee59d;
-  box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
-  color: white;
-}
-
 .select {
   border: none;
   border-right: 16px solid transparent;
